@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3308
--- Tiempo de generación: 20-03-2025 a las 19:24:20
+-- Tiempo de generación: 22-03-2025 a las 15:19:11
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -86,7 +86,35 @@ INSERT INTO `notificaciones` (`id`, `usuario_id`, `mensaje`, `estado`, `fecha_en
 (10, 2, '👍Un nuevo curso ha sido agregado a la plataforma.', 'no leído', '2025-03-11 04:39:10'),
 (11, 1, '🤡Tu pago ha sido confirmado con éxito.', 'no leído', '2025-03-11 04:39:10'),
 (12, 2, '👤Tienes una nueva solicitud de amistad.', 'no leído', '2025-03-11 04:39:10'),
-(27, 1, 'pepe', 'no leído', '2025-03-18 04:26:02');
+(27, 1, 'pepe', 'no leído', '2025-03-18 04:26:02'),
+(28, 2, 'Mensaje de prueba!', 'no leído', '2025-03-22 14:05:04');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `registro_actividades`
+--
+
+CREATE TABLE `registro_actividades` (
+  `id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `accion` text NOT NULL,
+  `fecha_hora` timestamp NOT NULL DEFAULT current_timestamp(),
+  `ip_origen` varchar(45) DEFAULT NULL,
+  `modulo_afectado` varchar(100) NOT NULL,
+  `curso_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `registro_actividades`
+--
+
+INSERT INTO `registro_actividades` (`id`, `usuario_id`, `accion`, `fecha_hora`, `ip_origen`, `modulo_afectado`, `curso_id`) VALUES
+(1, 1, 'Inició sesión', '2025-03-22 12:58:10', '192.168.1.10', 'Autenticación', 1),
+(2, 2, 'Creó un curso', '2025-03-22 12:58:10', '192.168.1.15', 'Cursos', 1),
+(3, 1, 'Eliminó un mensaje', '2025-03-22 12:58:10', '192.168.1.10', 'Mensajería', 1),
+(4, 2, 'Actualizó su perfil', '2025-03-22 12:58:10', '192.168.1.15', 'Usuarios', 1),
+(5, 1, 'Visualizó notificaciones', '2025-03-22 12:58:10', '192.168.1.10', 'Notificaciones', 1);
 
 -- --------------------------------------------------------
 
@@ -137,6 +165,14 @@ ALTER TABLE `notificaciones`
   ADD KEY `usuario_id` (`usuario_id`);
 
 --
+-- Indices de la tabla `registro_actividades`
+--
+ALTER TABLE `registro_actividades`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuario_id` (`usuario_id`),
+  ADD KEY `fk_registro_actividades_curso` (`curso_id`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -163,7 +199,13 @@ ALTER TABLE `mensajes`
 -- AUTO_INCREMENT de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT de la tabla `registro_actividades`
+--
+ALTER TABLE `registro_actividades`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
@@ -187,6 +229,13 @@ ALTER TABLE `mensajes`
 --
 ALTER TABLE `notificaciones`
   ADD CONSTRAINT `notificaciones_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `registro_actividades`
+--
+ALTER TABLE `registro_actividades`
+  ADD CONSTRAINT `fk_registro_actividades_curso` FOREIGN KEY (`curso_id`) REFERENCES `cursos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `registro_actividades_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

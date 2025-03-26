@@ -70,7 +70,7 @@
                         <a class="collapse-item" href="cursos.html">Panel de Control</a>
                         <a class="collapse-item" href="notificaciones.php">Notificaciones y Mensajería</a>
                         <a class="collapse-item" href="seguridad.html">Seguridad y Privacidad</a>
-                        <a class="collapse-item" href="registro-actividades.html">Registro de Actividades</a>
+                        <a class="collapse-item" href="RegistroActividades.php">Registro de Actividades</a>
                         <a class="collapse-item" href="catalogo-cursos.html">Interacción con el Catálogo</a>
                         <a class="collapse-item" href="calendario.html">Calendario de Clases</a>
                     </div>

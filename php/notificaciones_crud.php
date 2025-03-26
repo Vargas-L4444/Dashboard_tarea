@@ -7,7 +7,7 @@ function obtenerNotificaciones() {
     $query = "SELECT n.id, u.nombre AS usuario, n.mensaje, n.fecha_envio 
               FROM notificaciones n 
               INNER JOIN usuarios u ON n.usuario_id = u.id 
-              ORDER BY n.fecha_envio DESC";
+              ORDER BY n.fecha_envio DESC, n.id DESC";
     $stmt = $pdo->query($query);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
