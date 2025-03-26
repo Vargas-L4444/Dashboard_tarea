@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3308
--- Tiempo de generación: 22-03-2025 a las 15:19:11
+-- Tiempo de generación: 26-03-2025 a las 16:34:03
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -86,8 +86,8 @@ INSERT INTO `notificaciones` (`id`, `usuario_id`, `mensaje`, `estado`, `fecha_en
 (10, 2, '👍Un nuevo curso ha sido agregado a la plataforma.', 'no leído', '2025-03-11 04:39:10'),
 (11, 1, '🤡Tu pago ha sido confirmado con éxito.', 'no leído', '2025-03-11 04:39:10'),
 (12, 2, '👤Tienes una nueva solicitud de amistad.', 'no leído', '2025-03-11 04:39:10'),
-(27, 1, 'pepe', 'no leído', '2025-03-18 04:26:02'),
-(28, 2, 'Mensaje de prueba!', 'no leído', '2025-03-22 14:05:04');
+(27, 1, 'pepe 😡', 'no leído', '2025-03-18 04:26:02'),
+(33, 3, 'Bienvenido a ENGLISH LINK🥳', 'no leído', '2025-03-26 15:23:46');
 
 -- --------------------------------------------------------
 
@@ -102,19 +102,21 @@ CREATE TABLE `registro_actividades` (
   `fecha_hora` timestamp NOT NULL DEFAULT current_timestamp(),
   `ip_origen` varchar(45) DEFAULT NULL,
   `modulo_afectado` varchar(100) NOT NULL,
-  `curso_id` int(11) NOT NULL
+  `curso_id` int(11) NOT NULL,
+  `descripcion` text NOT NULL DEFAULT 'No especificada'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `registro_actividades`
 --
 
-INSERT INTO `registro_actividades` (`id`, `usuario_id`, `accion`, `fecha_hora`, `ip_origen`, `modulo_afectado`, `curso_id`) VALUES
-(1, 1, 'Inició sesión', '2025-03-22 12:58:10', '192.168.1.10', 'Autenticación', 1),
-(2, 2, 'Creó un curso', '2025-03-22 12:58:10', '192.168.1.15', 'Cursos', 1),
-(3, 1, 'Eliminó un mensaje', '2025-03-22 12:58:10', '192.168.1.10', 'Mensajería', 1),
-(4, 2, 'Actualizó su perfil', '2025-03-22 12:58:10', '192.168.1.15', 'Usuarios', 1),
-(5, 1, 'Visualizó notificaciones', '2025-03-22 12:58:10', '192.168.1.10', 'Notificaciones', 1);
+INSERT INTO `registro_actividades` (`id`, `usuario_id`, `accion`, `fecha_hora`, `ip_origen`, `modulo_afectado`, `curso_id`, `descripcion`) VALUES
+(1, 1, 'Inició sesión ✅', '2025-03-22 12:58:10', '192.168.1.10', 'Autenticación', 1, 'Like!'),
+(4, 2, 'Actualizó su perfil 👤', '2025-03-22 12:58:10', '192.168.1.15', 'Usuarios', 1, 'Exelente!'),
+(22, 2, 'Es una prueba!', '2025-03-26 03:58:16', NULL, '', 1, 'En mantenimiento!👍'),
+(26, 2, '📌Buenas tardes.', '2025-03-26 04:25:57', NULL, '', 1, 'Jay'),
+(29, 2, 'Ya coronamos! 👑', '2025-03-26 05:52:42', NULL, '', 2, '✅😉'),
+(30, 3, 'Importante! ⚠️', '2025-03-26 15:24:44', NULL, '', 3, 'Completa tu primera lección 📖');
 
 -- --------------------------------------------------------
 
@@ -137,7 +139,8 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `nombre`, `email`, `password`, `rol`, `fecha_registro`) VALUES
 (1, 'Juan Pérez', 'juan@example.com', '123456', 'estudiante', '2025-03-11 04:34:51'),
-(2, 'Ana Gómez', 'ana@example.com', 'claveSegura123', 'estudiante', '2025-03-11 04:35:27');
+(2, 'Ana Gómez', 'ana@example.com', 'claveSegura123', 'estudiante', '2025-03-11 04:35:27'),
+(3, 'Richard V (RSVL)', 'rich@gmail.com', 'R123.', 'estudiante', '2025-03-26 15:22:55');
 
 --
 -- Índices para tablas volcadas
@@ -199,19 +202,19 @@ ALTER TABLE `mensajes`
 -- AUTO_INCREMENT de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_actividades`
 --
 ALTER TABLE `registro_actividades`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas

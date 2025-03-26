@@ -21,7 +21,6 @@ $notificaciones = obtenerNotificaciones();
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Notificaciones y Mensajería</h1>
 
-    <!-- Contenedor para el botón de nueva notificación, botón de refrescar y la barra de búsqueda -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
             <button id="btnCrear" class="btn btn-primary">Nueva Notificación</button>
@@ -51,7 +50,7 @@ $notificaciones = obtenerNotificaciones();
                             <td><?php echo $notificacion['usuario']; ?></td>
                             <td><?php echo $notificacion['mensaje']; ?></td>
                             <td><?php echo $notificacion['fecha_envio']; ?></td>
-                            <td class="text-center">
+                            <td>
                                 <button class="btn btn-warning btn-sm editar-btn" data-id="<?php echo $notificacion['id']; ?>" data-mensaje="<?php echo htmlspecialchars($notificacion['mensaje'], ENT_QUOTES, 'UTF-8'); ?>">Editar</button>
                                 <button class="btn btn-danger btn-sm eliminar-btn" data-id="<?php echo $notificacion['id']; ?>">Eliminar</button>
                             </td>
@@ -65,13 +64,6 @@ $notificaciones = obtenerNotificaciones();
 
 <script>
 $(document).ready(function() {
-    function cargarNotificaciones() {
-        $.get("php/notificaciones_crud.php", { action: "listar" }, function(data) {
-            $("#notificacionesTable").html(data);
-        });
-    }
-
-    // Filtrar notificaciones en tiempo real
     $("#busqueda").on("keyup", function() {
         var valor = $(this).val().toLowerCase();
         $(".notificacion-item").filter(function() {
@@ -79,7 +71,6 @@ $(document).ready(function() {
         });
     });
 
-    // Crear una nueva notificación
     $("#btnCrear").click(function() {
         Swal.fire({
             title: "Nueva Notificación",
@@ -102,8 +93,7 @@ $(document).ready(function() {
             if (result.isConfirmed) {
                 $.post("php/notificaciones_crud.php", { action: "crear", usuario_id: result.value.usuario_id, mensaje: result.value.mensaje }, function(response) {
                     if (response.success) {
-                        Swal.fire("Éxito!", response.message, "success");
-                        cargarNotificaciones();
+                        Swal.fire("Éxito!", response.message, "success").then(() => location.reload());
                     } else {
                         Swal.fire("Error!", response.message, "error");
                     }
@@ -112,7 +102,6 @@ $(document).ready(function() {
         });
     });
 
-    // Editar notificación
     $(document).on("click", ".editar-btn", function() {
         var id = $(this).data("id");
         var mensajeActual = $(this).data("mensaje");
@@ -128,14 +117,13 @@ $(document).ready(function() {
                     Swal.showValidationMessage("El mensaje no puede estar vacío");
                     return false;
                 }
-                return nuevoMensaje;
+                return { id, nuevoMensaje };
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                $.post("php/notificaciones_crud.php", { action: "editar", id: id, mensaje: result.value }, function(response) {
+                $.post("php/notificaciones_crud.php", { action: "editar", id: id, mensaje: result.value.nuevoMensaje }, function(response) {
                     if (response.success) {
-                        Swal.fire("Actualizado!", response.message, "success");
-                        cargarNotificaciones();
+                        Swal.fire("Actualizado!", response.message, "success").then(() => location.reload());
                     } else {
                         Swal.fire("Error!", response.message, "error");
                     }
@@ -144,10 +132,8 @@ $(document).ready(function() {
         });
     });
 
-    // Eliminar notificación
     $(document).on("click", ".eliminar-btn", function() {
         var id = $(this).data("id");
-        
         Swal.fire({
             title: "¿Estás seguro?",
             text: "No podrás revertir esto.",
@@ -160,8 +146,7 @@ $(document).ready(function() {
             if (result.isConfirmed) {
                 $.post("php/notificaciones_crud.php", { action: "eliminar", id: id }, function(response) {
                     if (response.success) {
-                        Swal.fire("Eliminado!", response.message, "success");
-                        cargarNotificaciones(); 
+                        Swal.fire("Eliminado!", "La notificación ha sido eliminada.", "success").then(() => location.reload());
                     } else {
                         Swal.fire("Error!", response.message, "error");
                     }
