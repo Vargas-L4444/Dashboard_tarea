@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3308
--- Tiempo de generación: 26-03-2025 a las 16:34:03
+-- Tiempo de generación: 29-03-2025 a las 04:52:16
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -22,6 +22,29 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `plataforma_cursos_ingles` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `plataforma_cursos_ingles`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `calendario_clases`
+--
+
+CREATE TABLE `calendario_clases` (
+  `id` int(11) NOT NULL,
+  `nombre_clase` varchar(255) NOT NULL,
+  `fecha` date NOT NULL,
+  `hora` time NOT NULL,
+  `profesor_id` int(11) NOT NULL,
+  `curso_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `calendario_clases`
+--
+
+INSERT INTO `calendario_clases` (`id`, `nombre_clase`, `fecha`, `hora`, `profesor_id`, `curso_id`) VALUES
+(6, 'Inglés Básico', '2025-04-01', '10:00:00', 5, 1),
+(7, 'Conversación en Inglés', '2025-04-02', '14:00:00', 6, 2);
 
 -- --------------------------------------------------------
 
@@ -60,7 +83,8 @@ CREATE TABLE `mensajes` (
   `destinatario_id` int(11) NOT NULL,
   `contenido` text NOT NULL,
   `fecha_envio` timestamp NOT NULL DEFAULT current_timestamp(),
-  `estado` enum('enviado','leído') DEFAULT 'enviado'
+  `estado` enum('enviado','leído') DEFAULT 'enviado',
+  `leido` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -87,7 +111,9 @@ INSERT INTO `notificaciones` (`id`, `usuario_id`, `mensaje`, `estado`, `fecha_en
 (11, 1, '🤡Tu pago ha sido confirmado con éxito.', 'no leído', '2025-03-11 04:39:10'),
 (12, 2, '👤Tienes una nueva solicitud de amistad.', 'no leído', '2025-03-11 04:39:10'),
 (27, 1, 'pepe 😡', 'no leído', '2025-03-18 04:26:02'),
-(33, 3, 'Bienvenido a ENGLISH LINK🥳', 'no leído', '2025-03-26 15:23:46');
+(33, 3, 'Bienvenido a ENGLISH LINK🥳', 'no leído', '2025-03-26 15:23:46'),
+(36, 3, 'hola', 'no leído', '2025-03-28 01:21:15'),
+(39, 7, 'Die', 'no leído', '2025-03-29 03:22:43');
 
 -- --------------------------------------------------------
 
@@ -116,7 +142,8 @@ INSERT INTO `registro_actividades` (`id`, `usuario_id`, `accion`, `fecha_hora`, 
 (22, 2, 'Es una prueba!', '2025-03-26 03:58:16', NULL, '', 1, 'En mantenimiento!👍'),
 (26, 2, '📌Buenas tardes.', '2025-03-26 04:25:57', NULL, '', 1, 'Jay'),
 (29, 2, 'Ya coronamos! 👑', '2025-03-26 05:52:42', NULL, '', 2, '✅😉'),
-(30, 3, 'Importante! ⚠️', '2025-03-26 15:24:44', NULL, '', 3, 'Completa tu primera lección 📖');
+(32, 3, 'hi', '2025-03-28 01:54:44', NULL, '', 3, 'pvp'),
+(34, 4, 'hola lio', '2025-03-29 02:37:28', NULL, '', 3, 'Nuevo curso primera infancia 🏠');
 
 -- --------------------------------------------------------
 
@@ -140,11 +167,23 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id`, `nombre`, `email`, `password`, `rol`, `fecha_registro`) VALUES
 (1, 'Juan Pérez', 'juan@example.com', '123456', 'estudiante', '2025-03-11 04:34:51'),
 (2, 'Ana Gómez', 'ana@example.com', 'claveSegura123', 'estudiante', '2025-03-11 04:35:27'),
-(3, 'Richard V (RSVL)', 'rich@gmail.com', 'R123.', 'estudiante', '2025-03-26 15:22:55');
+(3, 'Richard V (RSVL)', 'rich@gmail.com', 'R123.', 'estudiante', '2025-03-26 15:22:55'),
+(4, 'Lio', 'lio@gmail.com', 'lio123.', 'estudiante', '2025-03-28 02:09:05'),
+(5, 'Carlos Ramírez', 'carlos@example.com', 'pass123', 'profesor', '2025-03-29 02:53:17'),
+(6, 'Laura Mendoza', 'laura@example.com', 'pass123', 'profesor', '2025-03-29 02:53:17'),
+(7, 'Diego V', 'diegov@gmail.com', 'die123.', 'estudiante', '2025-03-29 03:19:37');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `calendario_clases`
+--
+ALTER TABLE `calendario_clases`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `profesor_id` (`profesor_id`),
+  ADD KEY `curso_id` (`curso_id`);
 
 --
 -- Indices de la tabla `cursos`
@@ -187,6 +226,12 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `calendario_clases`
+--
+ALTER TABLE `calendario_clases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
@@ -202,23 +247,30 @@ ALTER TABLE `mensajes`
 -- AUTO_INCREMENT de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_actividades`
 --
 ALTER TABLE `registro_actividades`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `calendario_clases`
+--
+ALTER TABLE `calendario_clases`
+  ADD CONSTRAINT `calendario_clases_ibfk_1` FOREIGN KEY (`profesor_id`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `calendario_clases_ibfk_2` FOREIGN KEY (`curso_id`) REFERENCES `cursos` (`id`);
 
 --
 -- Filtros para la tabla `mensajes`

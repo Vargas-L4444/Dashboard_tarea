@@ -67,7 +67,7 @@
                 </a>
                 <div id="collapseCursos" class="collapse" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="cursos.html">Panel de Control</a>
+                        <a class="collapse-item" href="PanelControl.php">Panel de Control</a>
                         <a class="collapse-item" href="notificaciones.php">Notificaciones y Mensajería</a>
                         <a class="collapse-item" href="seguridad.html">Seguridad y Privacidad</a>
                         <a class="collapse-item" href="RegistroActividades.php">Registro de Actividades</a>
